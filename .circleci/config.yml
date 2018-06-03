@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/sample
+    steps:
+      - checkout
+
+      - run:
+          name: Docker Login
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+      # build the application image
+      - run:
+          name: Build Docker Image
+          command: docker build -t craigrueda/nginx-sample:latest .
+
+      # deploy the image
+      - run:
+          name: Push Docker Image
+          command: docker push craigrueda/nginx-sample:latest
